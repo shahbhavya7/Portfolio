@@ -1,0 +1,26 @@
+[
+    {
+      "title": "CampCreeks",
+      "imageSrc": "projects/pro4.png",
+      "description": "Explore the world of camping with the app CampCreeks",
+      "skills": ["MongoDB", "Express", "Node"],
+      "demo": "https://yelpcamp-2b2r.onrender.com/",
+      "source": "https://www.github.com"
+    },
+    {
+      "title": "Music Player",
+      "imageSrc": "projects/pro2.png",
+      "description": "Play your favorite music with the app Music Player and enjoy the beats.",
+      "skills": ["Javascript", "CSS", "HTML5"],
+      "demo": "https://spotifyclone-etdf.onrender.com/",
+      "source": "https://www.github.com"
+    },
+    {
+      "title": "Expense Tracker",
+      "imageSrc": "projects/pro3.png",
+      "description": "This is a project made to learn the latest languages by building an app.",
+      "skills": ["Javascript", "Jquery", "HTML5", "CSS"],
+      "demo": "https://shahbhavya7.github.io/ExpenseTracker/",
+      "source": "https://www.github.com"
+    }
+  ]
