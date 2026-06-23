@@ -35,9 +35,9 @@ Design concept: "Neural Gravity" — liquid glass panels floating in 3D space, A
 - [x] Hero
 - [x] Nav
 - [x] About
-- [ ] Skills
-- [ ] Projects
-- [ ] Research + Experience
+- [x] Skills
+- [x] Projects
+- [x] Research + Experience
 - [ ] Contact + Footer
 - [ ] Polish (bloom, postprocessing, mobile)
 
@@ -49,10 +49,12 @@ Design concept: "Neural Gravity" — liquid glass panels floating in 3D space, A
 - Cars are Bhavya's personal signature — can be referenced subtly in about/contact copy
 
 ## Current Status
-Performance pass complete. Neural mesh: 60 nodes, 30fps cap, no postprocessing.
-CSS animations: GPU only, reduced count. Lenis: rAF loop. GSAP: context cleanup.
-Site should run smoothly now.
-Next: Prompt 5 - Skills section.
+Prompt 5 complete.
+Skills section: 6 categories, tabbed, animated progress bars.
+Projects section: 6 pinned projects, filter by category, featured/small card grid, data-driven.
+Research section: 1 published paper, fully extensible — add items to RESEARCH_ITEMS array to extend.
+All sections: responsive, scroll-animated, dynamic data arrays.
+Next: Prompt 6 — Contact section + footer + final polish.
 
 ## Color Hierarchy Note
 Cyan (#00D4FF / flux) is the primary visual color. Plasma/violet (#6E3AFA) is accent only. All gradients lead with cyan.
