@@ -1,0 +1,471 @@
+/* ── Google Fonts ─────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── Tailwind Layers ─────────────────────────────────────────── */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design Tokens (CSS Custom Properties) ───────────────────── */
+:root {
+  /* Palette */
+  --color-void: #050508;
+  --color-plasma: #6E3AFA;
+  --color-flux: #00D4FF;
+  --color-heat: #FF4D6D;
+  --color-neural: #A0FF6F;
+  --color-glass: rgba(255, 255, 255, 0.04);
+  --color-glass-border: rgba(255, 255, 255, 0.12);
+
+  /* Typography */
+  --color-text-primary: #F0EEF8;
+  --color-text-muted: #6B6880;
+
+  /* Fonts */
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Spacing / Radius */
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+}
+
+/* ── Base Reset ──────────────────────────────────────────────── */
+@layer base {
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-void);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Consistent focus states — keyboard only */
+  :focus-visible {
+    outline: 2px solid rgba(0, 212, 255, 0.5);
+    outline-offset: 3px;
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Selection */
+  ::selection {
+    background-color: var(--color-plasma);
+    color: #ffffff;
+  }
+
+  ::-moz-selection {
+    background-color: var(--color-plasma);
+    color: #ffffff;
+  }
+}
+
+/* ── Custom Scrollbar ────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-plasma);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8b5cf6;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-plasma) var(--color-void);
+}
+
+/* ── Utility Classes ─────────────────────────────────────────── */
+@layer components {
+  .glass-panel {
+    background: var(--color-glass);
+    border: 1px solid var(--color-glass-border);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: var(--radius-lg);
+  }
+
+  .text-display {
+    font-family: var(--font-display);
+  }
+
+  .text-mono {
+    font-family: var(--font-mono);
+  }
+}
+
+/* ── Hero Section ────────────────────────────────────────────── */
+
+/* Name — always-on subtle animated shimmer */
+.hero-name {
+  background: linear-gradient(90deg,
+      #F0EEF8 0%,
+      #00D4FF 25%,
+      #6E3AFA 50%,
+      #F0EEF8 75%,
+      #F0EEF8 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: nameShimmer 6s linear infinite;
+  text-shadow: 0 0 80px rgba(0, 212, 255, 0.15);
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+}
+
+@keyframes nameShimmer {
+  0% {
+    background-position: 0% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* ── Primary CTA — gradient + shimmer sweep + glow ───────────── */
+.hero-btn-primary {
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(135deg, #00D4FF 0%, #0099CC 50%, #6E3AFA 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 14px 32px;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: #050508;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  z-index: 0;
+  box-shadow: 0 0 24px rgba(0, 212, 255, 0.35), 0 0 48px rgba(0, 212, 255, 0.12);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-btn-primary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  z-index: 1;
+  transition: none;
+}
+
+.hero-btn-primary:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 36px rgba(0, 212, 255, 0.6), 0 0 72px rgba(0, 212, 255, 0.2);
+}
+
+.hero-btn-primary:hover::before {
+  animation: shimmer-sweep 0.5s ease forwards;
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 200%;
+  }
+}
+
+/* ── Secondary CTA — terminal style ─────────────────────────── */
+.hero-btn-secondary {
+  display: inline-block;
+  background: rgba(0, 212, 255, 0.04);
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  border-radius: 10px;
+  padding: 14px 32px;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: #00D4FF;
+  text-decoration: none;
+  text-transform: uppercase;
+  box-shadow: inset 0 0 20px rgba(0, 212, 255, 0.03), 0 0 0 0 rgba(0, 212, 255, 0);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-btn-arrow {
+  color: #6E3AFA;
+  font-weight: 700;
+  margin-right: 4px;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-btn-secondary:hover {
+  background: rgba(0, 212, 255, 0.08);
+  border-color: rgba(0, 212, 255, 0.65);
+  color: #F0EEF8;
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+  transform: scale(1.02);
+}
+
+.hero-btn-secondary:hover .hero-btn-arrow {
+  color: #00D4FF;
+}
+
+/* ── Tag pills — engineered rectangular ─────────────────────── */
+.hero-tag {
+  display: inline-block;
+  background: transparent;
+  border: 1px solid rgba(160, 255, 111, 0.2);
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: rgba(160, 255, 111, 0.7);
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.hero-tag-prefix {
+  color: rgba(160, 255, 111, 0.3);
+}
+
+.hero-tag:hover {
+  border-color: rgba(160, 255, 111, 0.6);
+  color: #A0FF6F;
+  background: rgba(160, 255, 111, 0.05);
+}
+
+/* ── Stat values — gradient ─────────────────────────────────── */
+.hero-stat-value {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+  background: linear-gradient(135deg, #00D4FF, #6E3AFA);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── Glass card responsive ───────────────────────────────────── */
+.hero-card {
+  position: relative;
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 0 0 1px rgba(0, 212, 255, 0.08) inset,
+    0 32px 80px rgba(0, 0, 0, 0.5),
+    0 0 120px rgba(0, 212, 255, 0.04);
+}
+
+.hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .hero-card {
+    transform: translateX(0) !important;
+    padding: 32px 24px !important;
+  }
+}
+
+/* ── Scroll Indicator ────────────────────────────────────────── */
+.scroll-track {
+  position: relative;
+  width: 1px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.scroll-travel-dot {
+  position: absolute;
+  left: -1.5px;
+  top: 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #00D4FF;
+  box-shadow: 0 0 6px rgba(0, 212, 255, 0.8);
+  animation: scroll-travel 1.8s ease-in infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes scroll-travel {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(44px);
+    opacity: 0;
+  }
+}
+
+
+/* ── Tag pill flip-in ────────────────────────────────────────── */
+@keyframes tag-flip-in {
+  0% {
+    transform: rotateX(-90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+/* ── Navigation ──────────────────────────────────────────────── */
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.6);
+  }
+}
+
+.nav-dot-pulse {
+  animation: pulse-dot 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  will-change: transform, opacity;
+}
+
+/* Nav active underline */
+.nav-link-active-bar {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 1px;
+  background: #00D4FF;
+  transition: width 0.3s ease;
+}
+
+@keyframes hire-breathe {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.02); opacity: 0.85; }
+}
+
+.hire-me-btn {
+  animation: hire-breathe 3s ease infinite;
+  box-shadow: 0 0 16px rgba(0, 212, 255, 0.4);
+  will-change: transform, opacity;
+}
+
+/* ── About Section ────────────────────────────────────────────── */
+
+@keyframes status-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.4;
+  }
+}
+
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* About identity card top-edge highlight */
+.about-card-glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Avatar ring — filter-based for GPU compositing */
+@keyframes hue-spin {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+.avatar-ring-spin {
+  animation: hue-spin 8s linear infinite;
+  will-change: filter;
+}
+
+/* Blinking terminal cursor */
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.terminal-cursor {
+  animation: blink-cursor 1s step-end infinite;
+}
+
+/* About ambient floating particles (only 4 needed) */
+@keyframes float-1 { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+@keyframes float-2 { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-16px); } }
+@keyframes float-3 { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-22px); } }
+@keyframes float-4 { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-14px); } }
+
+/* ── Reduced Motion ──────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
