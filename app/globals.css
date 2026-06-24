@@ -72,13 +72,13 @@
 
   /* Selection */
   ::selection {
-    background-color: var(--color-plasma);
-    color: #ffffff;
+    background-color: rgba(0,212,255,0.25);
+    color: #F0EEF8;
   }
 
   ::-moz-selection {
-    background-color: var(--color-plasma);
-    color: #ffffff;
+    background-color: rgba(0,212,255,0.25);
+    color: #F0EEF8;
   }
 }
 
@@ -92,18 +92,18 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-plasma);
-  border-radius: 3px;
+  background: linear-gradient(to bottom, var(--color-flux), var(--color-plasma));
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #8b5cf6;
+  background: linear-gradient(to bottom, #33E0FF, #8B5CF6);
 }
 
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-plasma) var(--color-void);
+  scrollbar-color: var(--color-flux) var(--color-void);
 }
 
 /* ── Utility Classes ─────────────────────────────────────────── */

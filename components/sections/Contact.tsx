@@ -241,6 +241,12 @@ export default function Contact() {
           50% { opacity: 0.4; transform: scale(0.6); }
         }
       `}</style>
+
+      {/* Section bottom fade */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-[120px] z-[2] pointer-events-none"
+        style={{ background: "linear-gradient(to bottom, transparent, #050508)" }}
+      />
     </section>
   );
 }

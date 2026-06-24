@@ -238,7 +238,7 @@ export default function Projects() {
             </h2>
             {/* G2 — Heading subtext */}
             <p className="font-sans text-[16px] max-w-[480px] mt-3" style={{ color: "rgba(160,150,190,0.65)", lineHeight: 1.7 }}>
-              Selected work from production systems and research — each one shipped, not just started.
+              Selected work from production systems and research, each one shipped, not just started.
             </p>
           </div>
 
@@ -352,9 +352,9 @@ export default function Projects() {
         </AnimatePresence>
       </div>
 
-      {/* G3 — Section bottom fade */}
+      {/* Section bottom fade */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-[100px] pointer-events-none z-20"
+        className="absolute bottom-0 left-0 right-0 h-[120px] z-[2] pointer-events-none"
         style={{ background: "linear-gradient(to bottom, transparent, #050508)" }}
       />
     </section>

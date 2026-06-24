@@ -5,7 +5,7 @@ import gsap from "gsap";
 import NeuralMeshCanvas from "@/components/three/NeuralMeshCanvas";
 
 /* ── Tag Data ────────────────────────────────────────────────── */
-const TAGS = ["LLM Systems", "RAG", "NLP Research", "Gen AI", "Open Source"];
+const TAGS = ["RAG SYSTEMS", "AGENTIC AI", "LLM EVAL", "GEN AI", "DISTRIBUTED IR"];
 
 /* ── Hero Section ────────────────────────────────────────────── */
 export default function Hero() {

@@ -144,16 +144,7 @@ export default function Nav() {
           })}
         </div>
 
-        {/* Right CTA */}
-        <div className="hidden md:flex items-center">
-          <span className="w-[1px] h-4 bg-white/10 mr-2" />
-          <a
-            href="mailto:bhavyshah.work@gmail.com"
-            className="hire-me-btn font-syne text-[10px] font-bold uppercase tracking-wider bg-gradient-to-r from-flux to-plasma text-void py-1.5 px-3.5 rounded-full transition-all duration-200 hover:brightness-110 hover:scale-[1.02]"
-          >
-            Hire Me
-          </a>
-        </div>
+
 
         {/* Mobile Hamburger (Only visible < 768px) */}
         <button
@@ -213,18 +204,7 @@ export default function Nav() {
               })}
             </div>
 
-            {/* Full-width Gradient CTA at Bottom */}
-            <motion.div
-              variants={linkVariants}
-              className="w-full flex justify-center pb-6"
-            >
-              <a
-                href="mailto:bhavyshah.work@gmail.com"
-                className="w-full max-w-sm text-center font-syne text-[14px] font-bold uppercase tracking-widest bg-gradient-to-r from-flux to-plasma text-void py-4 rounded-full transition-all duration-200 hover:brightness-110 active:scale-95"
-              >
-                Hire Me
-              </a>
-            </motion.div>
+
           </motion.div>
         )}
       </AnimatePresence>

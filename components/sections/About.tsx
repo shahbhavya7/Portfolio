@@ -52,8 +52,7 @@ export default function About() {
   ];
 
   const currentlyBuilding = [
-    "ContractIQ (RAG + pgvector)",
-    "Niche-Neurons Invoice Pipeline",
+    "Agentic Code-Eval Pipeline",
     "AdversarialRAG-Eval Framework",
     "LLM Sycophancy Research",
     "This Portfolio",
@@ -137,7 +136,7 @@ export default function About() {
             }}
           >
             <div className="about-card-glass glass-panel w-full p-10 relative flex flex-col gap-6 border border-flux/15 shadow-[0_24px_80px_rgba(0,0,0,0.4),_0_0_0_1px_rgba(255,255,255,0.05)_inset]">
-              
+
               {/* Floating Element */}
               {IS_OPEN_TO_WORK && (
                 <div
@@ -251,18 +250,15 @@ export default function About() {
             <p className="max-w-[560px] break-words" style={{ overflowWrap: "break-word", wordWrap: "break-word" }}>
               <span style={{ color: "rgba(240,238,248,0.95)", fontSize: "17px" }}>Third-year AI &amp; Data Science student at MIT-WPU, Pune.</span>{" "}
               I build
-              production GenAI systems — RAG pipelines, multi-agent
+              production GenAI systems like RAG pipelines, multi-agent
               architectures, and LLM evaluation frameworks that actually ship.
             </p>
             <p className="max-w-[560px] break-words" style={{ overflowWrap: "break-word", wordWrap: "break-word" }}>
-              Currently interning at Calfus (Gen AI, starting July 2026) and
-              pursuing remote research collaborations with professors across the
-              UK, US, Singapore, and Germany. Co-authored a Springer publication
-              on query optimization (ICT4SD 2025).
+              Currently interning at Calfus building Gen AI products, and co-authored a Springer publication on MySQL query optimization (ICT4SD 2025). Research is not a side quest for me. It is part of how I think about engineering.
             </p>
             <p className="max-w-[560px] break-words" style={{ overflowWrap: "break-word", wordWrap: "break-word" }}>
               When I&apos;m not training models or writing papers, I&apos;m probably
-              thinking about cars — the engineering, the design, the physics. Same
+              thinking about cars, the engineering, the design, the physics. Same
               obsession with how systems work, different domain.
             </p>
           </motion.div>
@@ -331,10 +327,10 @@ export default function About() {
 
       {/* Ambient floating particles (reduced to 4, slower for perf) */}
       {[
-        { top: "15%", left: "10%", size: 3, opacity: 0.2,  anim: "float-1", dur: "10s",  delay: "0s" },
-        { top: "40%", left: "88%", size: 2, opacity: 0.15, anim: "float-2", dur: "12s",  delay: "1.5s" },
-        { top: "65%", left: "5%",  size: 3, opacity: 0.22, anim: "float-3", dur: "9s",   delay: "0.5s" },
-        { top: "80%", left: "72%", size: 2, opacity: 0.18, anim: "float-4", dur: "11s",  delay: "3s" },
+        { top: "15%", left: "10%", size: 3, opacity: 0.2, anim: "float-1", dur: "10s", delay: "0s" },
+        { top: "40%", left: "88%", size: 2, opacity: 0.15, anim: "float-2", dur: "12s", delay: "1.5s" },
+        { top: "65%", left: "5%", size: 3, opacity: 0.22, anim: "float-3", dur: "9s", delay: "0.5s" },
+        { top: "80%", left: "72%", size: 2, opacity: 0.18, anim: "float-4", dur: "11s", delay: "3s" },
       ].map((p, i) => (
         <div
           key={i}

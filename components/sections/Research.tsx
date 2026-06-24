@@ -285,6 +285,12 @@ export default function Research() {
           </div>
         </div>
       </div>
+
+      {/* Section bottom fade */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-[120px] z-[2] pointer-events-none"
+        style={{ background: "linear-gradient(to bottom, transparent, #050508)" }}
+      />
     </section>
   );
 }

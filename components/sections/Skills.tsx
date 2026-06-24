@@ -277,8 +277,7 @@ export default function Skills() {
             What I build with.
           </h2>
           <p className="font-sans text-[16px] text-text-muted max-w-[480px] mx-auto mt-4" style={{ lineHeight: 1.7 }}>
-            From neural nets to distributed systems — the full stack I use to
-            ship things.
+            RAG pipelines, agentic systems, and ML models with just enough distributed systems knowledge to be dangerous.
           </p>
         </div>
 
@@ -337,7 +336,7 @@ export default function Skills() {
               ? "opacity 150ms ease-in, clip-path 150ms ease-in"
               : "opacity 250ms ease-out, clip-path 250ms ease-out",
             opacity: isTransitioning ? 0 : 1,
-            clipPath: isTransitioning ? "inset(0 0 100% 0)" : "inset(0 0 0% 0)",
+            clipPath: isTransitioning ? "inset(-40px -40px 100% -40px)" : "inset(-40px -40px -40px -40px)",
           }}
         >
           {activeData.skills.map((skill, index) => {
@@ -432,9 +431,9 @@ export default function Skills() {
         </div>
       </div>
 
-      {/* G3 — Section bottom fade */}
+      {/* Section bottom fade */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-[100px] pointer-events-none z-20"
+        className="absolute bottom-0 left-0 right-0 h-[120px] z-[2] pointer-events-none"
         style={{ background: "linear-gradient(to bottom, transparent, #050508)" }}
       />
     </section>
