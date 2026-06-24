@@ -148,7 +148,7 @@ export default function Contact() {
             006 / CONTACT
           </h3>
           
-          <h2 className="font-syne font-extrabold text-[#F0EEF8] leading-[1.05] mt-4 text-[clamp(44px,6vw,80px)]">
+          <h2 className="font-syne font-extrabold text-[#F0EEF8] leading-[1.05] mt-4 text-[clamp(28px,9vw,80px)] md:text-[clamp(44px,6vw,80px)]">
             Let&apos;s build<br />
             <span
               style={{

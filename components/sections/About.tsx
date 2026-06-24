@@ -186,13 +186,13 @@ export default function About() {
                 {infoRows.map((row) => (
                   <div
                     key={row.label}
-                    className="flex justify-between items-center rounded px-2 -mx-2 transition-all duration-200 hover:bg-flux/[0.04] group/row cursor-default"
+                    className="flex justify-between items-start sm:items-center rounded px-2 -mx-2 transition-all duration-200 hover:bg-flux/[0.04] group/row cursor-default gap-4"
                     style={{ padding: "4px 8px" }}
                   >
-                    <span className="font-mono text-[10px] text-text-muted uppercase tracking-[0.15em]">
+                    <span className="font-mono text-[10px] text-text-muted uppercase tracking-[0.15em] shrink-0 mt-[2px] sm:mt-0">
                       {row.label}
                     </span>
-                    <span className="font-mono text-[11px] text-text-primary/70 transition-colors duration-200 group-hover/row:text-text-primary">
+                    <span className="font-mono text-[11px] text-text-primary/70 transition-colors duration-200 group-hover/row:text-text-primary text-right break-words max-w-[200px] sm:max-w-none">
                       {row.value}
                     </span>
                   </div>
