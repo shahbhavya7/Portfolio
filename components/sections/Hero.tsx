@@ -85,9 +85,9 @@ export default function Hero() {
           ref={cardRef}
           className="glass-panel hero-card mx-auto"
           style={{
-            padding: "48px 40px",
+            padding: "clamp(32px, 8vw, 48px) clamp(20px, 6vw, 40px)",
             width: "640px",
-            maxWidth: "calc(100vw - 48px)",
+            maxWidth: "calc(100vw - 32px)",
           }}
         >
           {/* Eyebrow */}
@@ -109,8 +109,9 @@ export default function Hero() {
             className="text-display hero-name"
             style={{
               fontWeight: 800,
-              fontSize: "clamp(52px, 6vw, 84px)",
+              fontSize: "clamp(40px, 12vw, 84px)",
               lineHeight: 1.05,
+              wordBreak: "break-word",
             }}
           >
             Bhavya Shah
