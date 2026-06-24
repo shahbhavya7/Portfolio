@@ -131,10 +131,14 @@ export default function Nav() {
                   <span className="w-1 h-1 rounded-full bg-[#00D4FF] nav-dot-pulse" />
                 )}
                 {item}
-                <span
-                  className="nav-link-active-bar"
-                  style={{ width: isActive ? "100%" : "0%" }}
-                />
+                {isActive && (
+                  <motion.div
+                    layoutId="active-nav-indicator"
+                    className="absolute -bottom-[1px] left-[14px] right-[14px] h-[2px] bg-[#00D4FF] rounded-full"
+                    style={{ boxShadow: "0 0 10px rgba(0,212,255,0.6)" }}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                )}
               </a>
             );
           })}

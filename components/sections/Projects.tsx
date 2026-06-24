@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -126,13 +127,46 @@ const ASCII_ART: Record<string, string[]> = {
   ]
 };
 
+// B2 — Tech tag color dot mapper
+function getTagDotColor(tag: string): string {
+  if (/Python|FastAPI|Flask/i.test(tag)) return "#3776AB";
+  if (/React|Next|Three|Tailwind/i.test(tag)) return "#61DAFB";
+  if (/LangChain|RAG|LLM|LLaMA|Gemini|RAGAS|FAISS/i.test(tag)) return "#00D4FF";
+  if (/Java|gRPC|Protobuf/i.test(tag)) return "#A0FF6F";
+  if (/TensorFlow|Deep Learning|Streamlit/i.test(tag)) return "#6E3AFA";
+  return "rgba(255,255,255,0.2)";
+}
+
+// B4 — Count projects per filter
+function getFilterCount(filter: string): number {
+  if (filter === "ALL") return PROJECTS.length;
+  return PROJECTS.filter(p => p.category === filter).length;
+}
+
+// Card enter/exit animation variants for AnimatePresence
+const cardVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.96 },
+  visible: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delay: i * 0.04,
+      duration: 0.2,
+      ease: [0.4, 0, 0.2, 1],
+    },
+  }),
+  exit: {
+    opacity: 0,
+    scale: 0.96,
+    transition: { duration: 0.08 },
+  },
+};
+
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState("ALL");
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
 
   const filteredProjects = activeFilter === "ALL"
     ? PROJECTS
@@ -144,16 +178,7 @@ export default function Projects() {
     return matchingProj ? matchingProj.categoryColor : "#00D4FF";
   };
 
-  const handleFilterClick = (filter: string) => {
-    if (filter === activeFilter || isTransitioning) return;
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setActiveFilter(filter);
-      setIsTransitioning(false);
-    }, 150);
-  };
-
-  // Scroll animations
+  // G4 — Scroll animations with differentiated timing
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -174,36 +199,6 @@ export default function Projects() {
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top 75%",
-          },
-        }
-      );
-
-      gsap.fromTo("[data-anim='featured-grid']",
-        { y: 60, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          delay: 0.2,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-          },
-        }
-      );
-
-      gsap.fromTo("[data-anim='small-card']",
-        { y: 40, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: "[data-anim='small-grid']",
-            start: "top 85%",
           },
         }
       );
@@ -238,9 +233,13 @@ export default function Projects() {
             <h3 className="font-mono text-[10px] text-plasma uppercase tracking-[0.2em] mb-4">
               003 / PROJECTS
             </h3>
-            <h2 className="font-syne font-extrabold text-[#F0EEF8] leading-[1.1] pb-2 text-[clamp(40px,5vw,64px)]">
+            <h2 className="font-syne font-extrabold text-[#F0EEF8] leading-relaxed py-2 text-[clamp(40px,5vw,64px)]">
               Things I&apos;ve shipped.
             </h2>
+            {/* G2 — Heading subtext */}
+            <p className="font-sans text-[16px] max-w-[480px] mt-3" style={{ color: "rgba(160,150,190,0.65)", lineHeight: 1.7 }}>
+              Selected work from production systems and research — each one shipped, not just started.
+            </p>
           </div>
 
           <a
@@ -253,18 +252,19 @@ export default function Projects() {
           </a>
         </div>
 
-        {/* Filter Tabs */}
+        {/* B4 — Filter Tabs with count badges */}
         <div
           className="flex flex-row gap-3 justify-start overflow-x-auto pb-4 mb-[48px] hide-scrollbar"
         >
           {FILTERS.map((filter) => {
             const isActive = activeFilter === filter;
             const activeColor = getActiveFilterColor();
+            const count = getFilterCount(filter);
             return (
               <button
                 key={filter}
-                onClick={() => handleFilterClick(filter)}
-                className="whitespace-nowrap font-mono text-[11px] px-5 py-2.5 rounded-[40px] border transition-all duration-200 ease-in-out"
+                onClick={() => setActiveFilter(filter)}
+                className="whitespace-nowrap font-mono text-[11px] px-5 py-2.5 rounded-[40px] border transition-all duration-200 ease-in-out flex items-center gap-2"
                 style={{
                   backgroundColor: isActive ? `${activeColor}1A` : "rgba(255,255,255,0.03)",
                   borderColor: isActive ? `${activeColor}66` : "rgba(255,255,255,0.08)",
@@ -273,69 +273,90 @@ export default function Projects() {
                 }}
               >
                 {filter}
+                <span className="font-mono text-[9px] opacity-40">({count})</span>
               </button>
             );
           })}
         </div>
 
-        {/* Projects Grid */}
-        <div
-          ref={gridRef}
-          style={{
-            transition: "opacity 150ms ease-in-out, transform 150ms ease-in-out",
-            opacity: isTransitioning ? 0 : 1,
-            transform: isTransitioning ? "translateY(10px)" : "translateY(0)",
-          }}
-        >
-          {filteredProjects.length === 0 ? (
-            <div className="text-center py-20 font-mono text-[13px] text-text-muted/40">
-              {`// no projects in this category yet`}
-            </div>
-          ) : activeFilter === "ALL" ? (
-            // ALL layout: Featured + Small grid
-            <>
-              {/* Featured Grid (first 3) */}
-              <div data-anim="featured-grid" className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {filteredProjects.slice(0, 3).map((project, index) => {
-                  const isWide = index === 0;
-                  return (
-                    <ProjectCard
-                      key={project.id}
-                      project={project}
-                      isWide={isWide}
-                      type="featured"
-                    />
-                  );
-                })}
+        {/* B4 — Projects Grid with AnimatePresence */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeFilter}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            {filteredProjects.length === 0 ? (
+              <div className="text-center py-20 font-mono text-[13px] text-text-muted/40">
+                {`// no projects in this category yet`}
               </div>
+            ) : activeFilter === "ALL" ? (
+              <>
+                {/* Featured Grid (first 3) */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {filteredProjects.slice(0, 3).map((project, index) => {
+                    const isWide = index === 0;
+                    return (
+                      <motion.div
+                        key={project.id}
+                        custom={index}
+                        variants={cardVariants}
+                        className={isWide ? "lg:col-span-2" : ""}
+                      >
+                        <ProjectCard
+                          project={project}
+                          isWide={isWide}
+                          type="featured"
+                        />
+                      </motion.div>
+                    );
+                  })}
+                </div>
 
-              {/* Small Grid (remaining) */}
-              <div data-anim="small-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                {filteredProjects.slice(3).map((project) => (
-                  <ProjectCard
+                {/* Small Grid (remaining) */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                  {filteredProjects.slice(3).map((project, index) => (
+                    <motion.div
+                      key={project.id}
+                      custom={index + 3}
+                      variants={cardVariants}
+                    >
+                      <ProjectCard
+                        project={project}
+                        isWide={false}
+                        type="small"
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {filteredProjects.map((project, index) => (
+                  <motion.div
                     key={project.id}
-                    project={project}
-                    isWide={false}
-                    type="small"
-                  />
+                    custom={index}
+                    variants={cardVariants}
+                  >
+                    <ProjectCard
+                      project={project}
+                      isWide={false}
+                      type="equal"
+                    />
+                  </motion.div>
                 ))}
               </div>
-            </>
-          ) : (
-            // FILTERED layout: Equal grid
-            <div data-anim="featured-grid" className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {filteredProjects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  isWide={false}
-                  type="equal"
-                />
-              ))}
-            </div>
-          )}
-        </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
       </div>
+
+      {/* G3 — Section bottom fade */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-[100px] pointer-events-none z-20"
+        style={{ background: "linear-gradient(to bottom, transparent, #050508)" }}
+      />
     </section>
   );
 }
@@ -343,11 +364,11 @@ export default function Projects() {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ProjectCard({ project, isWide, type }: { project: any; isWide: boolean; type: string }) {
   const isSmall = type === "small";
+  const isFeatured = project.featured;
 
   return (
     <div
-      data-anim={isSmall ? "small-card" : ""}
-      className={`about-card-glass glass-panel rounded-xl border border-white/10 relative flex flex-col justify-between group cursor-pointer transition-all duration-250 ease-out overflow-hidden proj-card shadow-[0_24px_80px_rgba(0,0,0,0.4),_0_0_0_1px_rgba(255,255,255,0.05)_inset] ${isWide ? "lg:col-span-2 lg:min-h-[320px] h-auto" : type === "equal" ? "min-h-[280px] h-auto" : "h-auto md:min-h-[280px]"
+      className={`about-card-glass glass-panel rounded-xl border border-white/10 relative flex flex-col justify-between group cursor-pointer transition-all duration-250 ease-out overflow-hidden proj-card shadow-[0_24px_80px_rgba(0,0,0,0.4),_0_0_0_1px_rgba(255,255,255,0.05)_inset] ${isWide ? "lg:min-h-[320px] h-auto" : type === "equal" ? "min-h-[280px] h-auto" : "h-auto md:min-h-[280px]"
         } ${isSmall ? "p-[28px] md:p-[32px] min-h-[240px]" : "p-[28px] md:p-[40px] lg:px-[48px]"}`}
       style={{
         "--hover-border": `${project.categoryColor}4D`,
@@ -355,12 +376,30 @@ function ProjectCard({ project, isWide, type }: { project: any; isWide: boolean;
       } as React.CSSProperties}
       onClick={() => window.open(project.github as string, "_blank", "noopener,noreferrer")}
     >
+      {/* B1 — Glowing gradient top border for featured cards */}
+      {isFeatured && (
+        <div
+          className="absolute top-0 left-0 right-0 h-[1px] z-20 pointer-events-none"
+          style={{
+            background: "linear-gradient(90deg, transparent 0%, #00D4FF 30%, #6E3AFA 70%, transparent 100%)",
+          }}
+        />
+      )}
+
+
+
       {/* Background noise texture on hover */}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-0"
         style={{
           background: `radial-gradient(ellipse 60% 50% at 70% 50%, ${project.categoryColor}0D, transparent 70%)`
         }}
+      />
+
+      {/* B3 — Corner category dot with accent */}
+      <div
+        className="absolute top-4 right-4 w-2 h-2 rounded-full opacity-20 transition-opacity duration-300 group-hover:opacity-40"
+        style={{ backgroundColor: project.categoryColor }}
       />
 
       {/* Top Section */}
@@ -370,6 +409,20 @@ function ProjectCard({ project, isWide, type }: { project: any; isWide: boolean;
             <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: project.categoryColor }} />
             {project.category}
           </div>
+
+          {/* B1 — Featured badge */}
+          {isFeatured && !isSmall && (
+            <span
+              className="ml-3 inline-block font-mono text-[9px] font-bold uppercase tracking-[0.15em] px-3 py-[5px] rounded"
+              style={{
+                background: "linear-gradient(135deg, #00D4FF, #6E3AFA)",
+                color: "#050508",
+                boxShadow: "0 0 16px rgba(0,212,255,0.3)",
+              }}
+            >
+              ★ FEATURED
+            </span>
+          )}
 
           <h3 className={`font-syne font-bold text-[#F0EEF8] ${isSmall ? "text-[20px]" : "text-[28px]"}`}>
             {project.title}
@@ -401,20 +454,29 @@ function ProjectCard({ project, isWide, type }: { project: any; isWide: boolean;
       </div>
 
       {/* Bottom Section */}
-      <div className={`relative z-10 flex justify-between items-end md:items-center pt-6 mt-auto flex-col md:flex-row gap-4`}>
-        {/* Tags Row */}
+      <div className="relative z-10 flex justify-between items-end md:items-center pt-6 mt-auto flex-col md:flex-row gap-4">
+        {/* B2 — Tags Row with colored dots */}
         <div className="flex flex-wrap gap-2 w-full md:w-auto">
           {project.tags.map((tag: string) => (
             <span
               key={tag}
-              className="font-mono text-[10px] px-2.5 py-1 rounded border border-white/10 bg-white/5 text-[#F0EEF8]/60 transition-colors duration-150 proj-tag"
+              className="font-mono text-[10px] px-2.5 py-1 rounded border transition-colors duration-150 proj-tag flex items-center gap-1.5"
+              style={{
+                backgroundColor: "rgba(0,0,0,0.3)",
+                borderColor: "rgba(255,255,255,0.06)",
+                color: "rgba(240,238,248,0.5)",
+              }}
             >
+              <span
+                className="w-[4px] h-[4px] rounded-full flex-shrink-0"
+                style={{ backgroundColor: getTagDotColor(tag) }}
+              />
               {tag}
             </span>
           ))}
         </div>
 
-        {/* Highlight & Link */}
+        {/* B5 — Elevated links */}
         <div className="flex flex-col items-start md:items-end w-full md:w-auto mt-2 md:mt-0">
           <span className="font-mono text-[10px] text-text-muted/50 text-left md:text-right max-w-full md:max-w-[240px]">
             {project.highlight}
@@ -424,9 +486,10 @@ function ProjectCard({ project, isWide, type }: { project: any; isWide: boolean;
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="font-mono text-[11px] text-flux/70 mt-2 hover:opacity-100 hover:underline transition-opacity"
+            className="font-mono text-[11px] mt-2 transition-all duration-200 flex items-center gap-1.5 proj-link"
+            style={{ color: "rgba(240,238,248,0.4)" }}
           >
-            ↗ GitHub
+            {`// SOURCE ↗`}
           </a>
         </div>
       </div>
@@ -438,8 +501,19 @@ function ProjectCard({ project, isWide, type }: { project: any; isWide: boolean;
           transform: translateY(-3px);
         }
         .proj-card:hover .proj-tag {
-          border-color: var(--hover-border);
+          border-color: rgba(0,212,255,0.2);
+          color: rgba(240,238,248,0.7);
         }
+        .proj-card:hover .proj-link {
+          color: rgba(240,238,248,0.7);
+        }
+        .proj-link:hover {
+          color: #00D4FF !important;
+          text-decoration: underline;
+          text-underline-offset: 3px;
+          text-decoration-thickness: 1px;
+        }
+
       `}</style>
     </div>
   );

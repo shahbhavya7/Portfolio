@@ -7,12 +7,6 @@ import NeuralMeshCanvas from "@/components/three/NeuralMeshCanvas";
 /* ── Tag Data ────────────────────────────────────────────────── */
 const TAGS = ["LLM Systems", "RAG", "NLP Research", "Gen AI", "Open Source"];
 
-const STATS = [
-  { value: "3+", label: "Production GenAI Projects" },
-  { value: "1", label: "Springer Publication" },
-  { value: "8.7+", label: "CGPA · MIT-WPU" },
-];
-
 /* ── Hero Section ────────────────────────────────────────────── */
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -32,8 +26,7 @@ export default function Hero() {
       tl.from("[data-anim='eyebrow']", { y: 20, opacity: 0 })
         .from("[data-anim='name']", { y: 20, opacity: 0 }, "-=0.5")
         .from("[data-anim='descriptor']", { y: 20, opacity: 0 }, "-=0.5")
-        .from("[data-anim='ctas']", { y: 20, opacity: 0 }, "-=0.5")
-        .from("[data-anim='stats']", { y: 20, opacity: 0, duration: 0.7 }, "-=0.45");
+        .from("[data-anim='ctas']", { y: 20, opacity: 0 }, "-=0.5");
 
       // Tag pills flip-in with stagger (after CTAs)
       gsap.fromTo("[data-anim='tag-pill']",
@@ -176,36 +169,6 @@ export default function Hero() {
             >
               <span className="hero-btn-arrow">→</span> READ RESEARCH
             </a>
-          </div>
-
-          {/* Stats */}
-          <div
-            data-anim="stats"
-            className="flex gap-8 flex-wrap"
-            style={{
-              marginTop: 40,
-              borderTop: "1px solid rgba(255,255,255,0.08)",
-              paddingTop: 24,
-            }}
-          >
-            {STATS.map((stat) => (
-              <div key={stat.label}>
-                <p className="text-display hero-stat-value">
-                  {stat.value}
-                </p>
-                <p
-                  className="text-mono uppercase"
-                  style={{
-                    fontSize: 9,
-                    color: "#6B6880",
-                    letterSpacing: "0.2em",
-                    marginTop: 6,
-                  }}
-                >
-                  {stat.label}
-                </p>
-              </div>
-            ))}
           </div>
         </div>
       </div>

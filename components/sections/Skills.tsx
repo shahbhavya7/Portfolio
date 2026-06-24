@@ -100,10 +100,19 @@ const SKILL_CATEGORIES = [
   },
 ];
 
+// A2 — Proficiency label mapper
+function getProficiencyLabel(level: number): { label: string; color: string } {
+  if (level >= 90) return { label: "EXPERT", color: "#A0FF6F" };
+  if (level >= 80) return { label: "ADVANCED", color: "CATEGORY" }; // replaced at render
+  if (level >= 70) return { label: "PROFICIENT", color: "rgba(240,238,248,0.6)" };
+  return { label: "LEARNING", color: "#FFB347" };
+}
+
 export default function Skills() {
   const [activeCategory, setActiveCategory] = useState("genai");
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [animatedLevels, setAnimatedLevels] = useState<Record<string, number>>({});
+  const [prevCategory, setPrevCategory] = useState("genai");
 
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -136,20 +145,23 @@ export default function Skills() {
     return () => cancelAnimationFrame(rafId);
   }, [activeCategory, activeData]);
 
+  // A3 + A4 — Enhanced tab switching with clip-path
   const handleTabClick = (id: string) => {
     if (id === activeCategory || isTransitioning) return;
+    setPrevCategory(activeCategory);
     setIsTransitioning(true);
     setTimeout(() => {
       setActiveCategory(id);
-      setIsTransitioning(false);
+      requestAnimationFrame(() => {
+        setIsTransitioning(false);
+      });
     }, 150);
   };
 
-  // Scroll animations
+  // Scroll animations — G4 differentiated timing
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Refresh ScrollTrigger after a short delay to ensure layout is calculated
     const timer = setTimeout(() => {
       ScrollTrigger.refresh();
     }, 100);
@@ -162,7 +174,7 @@ export default function Skills() {
         {
           y: 0,
           opacity: 1,
-          duration: 0.8,
+          duration: 0.7, // G4: fast, confident
           ease: "power2.out",
           scrollTrigger: {
             trigger: sectionRef.current,
@@ -176,9 +188,9 @@ export default function Skills() {
         {
           y: 0,
           opacity: 1,
-          duration: 0.8,
+          duration: 0.5,
           ease: "power2.out",
-          delay: 0.2,
+          delay: 0.15,
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top 75%",
@@ -191,10 +203,10 @@ export default function Skills() {
         {
           y: 0,
           opacity: 1,
-          duration: 0.8,
-          stagger: 0.05,
+          duration: 0.5, // G4: quick cascade
+          stagger: 0.04,
           ease: "power2.out",
-          delay: 0.3,
+          delay: 0.25,
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top 75%",
@@ -215,17 +227,43 @@ export default function Skills() {
       ref={sectionRef}
       className="relative min-h-screen py-[120px] overflow-hidden"
     >
-      {/* Background pattern */}
+      {/* A5 — Background pattern (boosted opacity) */}
       <div
         className="absolute inset-0 pointer-events-none z-0"
         style={{
           backgroundImage: `
-            linear-gradient(45deg, rgba(110,58,250,0.03) 1px, transparent 1px),
-            linear-gradient(-45deg, rgba(0,212,255,0.03) 1px, transparent 1px)
+            linear-gradient(45deg, rgba(110,58,250,0.05) 1px, transparent 1px),
+            linear-gradient(-45deg, rgba(0,212,255,0.05) 1px, transparent 1px)
           `,
           backgroundSize: "64px 64px",
           maskImage: "radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%)",
           WebkitMaskImage: "radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%)",
+        }}
+      />
+
+      {/* A5 — Large ambient orb top-right */}
+      <div
+        className="absolute pointer-events-none z-0"
+        style={{
+          top: "-200px",
+          right: "-200px",
+          width: "600px",
+          height: "600px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(110,58,250,0.06) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* A5 — Smaller cyan orb bottom-left */}
+      <div
+        className="absolute pointer-events-none z-0"
+        style={{
+          bottom: "-100px",
+          left: "-100px",
+          width: "400px",
+          height: "400px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(0,212,255,0.04) 0%, transparent 70%)",
         }}
       />
 
@@ -235,16 +273,16 @@ export default function Skills() {
           <h3 className="font-mono text-[10px] text-flux uppercase tracking-[0.2em] mb-4">
             002 / SKILLS
           </h3>
-          <h2 className="font-syne font-extrabold text-[#F0EEF8] leading-[1.1] pb-2 text-[clamp(32px,8vw,64px)] md:text-[clamp(40px,5vw,64px)]">
+          <h2 className="font-syne font-extrabold text-[#F0EEF8] leading-relaxed py-2 text-[clamp(32px,8vw,64px)] md:text-[clamp(40px,5vw,64px)]">
             What I build with.
           </h2>
-          <p className="font-sans text-[16px] text-text-muted max-w-[480px] mx-auto mt-4">
+          <p className="font-sans text-[16px] text-text-muted max-w-[480px] mx-auto mt-4" style={{ lineHeight: 1.7 }}>
             From neural nets to distributed systems — the full stack I use to
             ship things.
           </p>
         </div>
 
-        {/* Tabs Row */}
+        {/* A4 — Tabs Row with underline indicator */}
         <div
           ref={tabsRef}
           className="flex flex-row gap-3 justify-start md:justify-center overflow-x-auto pb-4 mb-[48px] hide-scrollbar"
@@ -255,85 +293,150 @@ export default function Skills() {
               <button
                 key={cat.id}
                 onClick={() => handleTabClick(cat.id)}
-                className="whitespace-nowrap font-mono text-[11px] px-5 py-2.5 rounded-[40px] border transition-all duration-200 ease-in-out"
+                className="relative whitespace-nowrap font-mono text-[11px] px-5 py-2.5 rounded-[40px] border transition-all duration-200 ease-in-out"
                 style={{
-                  backgroundColor: isActive ? "rgba(0,212,255,0.1)" : "rgba(255,255,255,0.03)",
-                  borderColor: isActive ? "rgba(0,212,255,0.4)" : "rgba(255,255,255,0.08)",
-                  color: isActive ? "#00D4FF" : "rgba(240,238,248,0.6)",
-                  boxShadow: isActive ? "0 0 16px rgba(0,212,255,0.15)" : "none",
+                  backgroundColor: isActive ? `${cat.color}1A` : "rgba(255,255,255,0.03)",
+                  borderColor: isActive ? `${cat.color}66` : "rgba(255,255,255,0.08)",
+                  color: isActive ? cat.color : "rgba(240,238,248,0.6)",
+                  boxShadow: isActive ? `0 0 16px ${cat.color}26` : "none",
                 }}
               >
-                {cat.icon} {cat.label}
+                {/* A4 — Icon with flash animation on active */}
+                <span
+                  className="inline-block mr-1.5 transition-transform duration-300"
+                  style={{
+                    transform: isActive ? "scale(1)" : "scale(1)",
+                    animation: isActive && cat.id !== prevCategory ? "icon-flash 0.3s ease-out" : "none",
+                  }}
+                >
+                  {cat.icon}
+                </span>
+                {cat.label}
+
+                {/* A4 — Animated underline indicator */}
+                {isActive && (
+                  <span
+                    className="absolute -bottom-[2px] left-[20%] right-[20%] h-[1px]"
+                    style={{
+                      backgroundColor: cat.color,
+                      animation: "underline-expand 0.3s ease forwards",
+                    }}
+                  />
+                )}
               </button>
             );
           })}
         </div>
 
-        {/* Skill Cards Grid */}
+        {/* A3 — Skill Cards Grid with clip-path transition */}
         <div
           ref={gridRef}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
           style={{
-            transition: "opacity 150ms ease-in-out, transform 150ms ease-in-out",
+            transition: isTransitioning
+              ? "opacity 150ms ease-in, clip-path 150ms ease-in"
+              : "opacity 250ms ease-out, clip-path 250ms ease-out",
             opacity: isTransitioning ? 0 : 1,
-            transform: isTransitioning ? "translateY(10px)" : "translateY(0)",
+            clipPath: isTransitioning ? "inset(0 0 100% 0)" : "inset(0 0 0% 0)",
           }}
         >
-          {activeData.skills.map((skill, index) => (
-            <div
-              key={skill.name}
-              data-anim="skill-card"
-              className="about-card-glass glass-panel p-[20px] md:p-[24px] rounded-[10px] relative overflow-hidden flex flex-col gap-3 group border border-white/5 transition-all duration-200 shadow-[0_24px_80px_rgba(0,0,0,0.4),_0_0_0_1px_rgba(255,255,255,0.05)_inset]"
-              style={{
-                "--hover-border": `${activeData.color}4D`, // 0.3 opacity
-                "--hover-shadow": `${activeData.color}14`, // 0.08 opacity
-              } as React.CSSProperties}
-            >
-              {/* Decorative Corner Dot */}
+          {activeData.skills.map((skill, index) => {
+            const proficiency = getProficiencyLabel(skill.level);
+            const profColor = proficiency.color === "CATEGORY" ? activeData.color : proficiency.color;
+
+            return (
               <div
-                className="absolute top-4 right-4 w-2 h-2 rounded-full opacity-15"
-                style={{ backgroundColor: activeData.color }}
-              />
-
-              {/* Top Row */}
-              <div className="flex justify-between items-center pr-4">
-                <span className="font-mono text-[13px] text-text-primary flex items-center gap-2">
-                  {skill.Icon && <skill.Icon className="text-[14px] opacity-70" />}
-                  {skill.name}
-                </span>
+                key={skill.name}
+                data-anim="skill-card"
+                className="about-card-glass glass-panel p-[20px] md:p-[24px] rounded-[10px] relative overflow-hidden flex flex-col gap-3 group border border-white/5 transition-all duration-200 shadow-[0_24px_80px_rgba(0,0,0,0.4),_0_0_0_1px_rgba(255,255,255,0.05)_inset] skill-card-hover"
+                style={{
+                  "--hover-border": `${activeData.color}4D`,
+                  "--hover-shadow": `${activeData.color}14`,
+                } as React.CSSProperties}
+              >
+                {/* A6 — Category icon corner (replaces invisible dot) */}
                 <span
-                  className="font-mono text-[11px]"
-                  style={{ color: activeData.color, opacity: 0.8 }}
+                  className="absolute top-4 right-4 text-[18px] opacity-[0.12] transition-all duration-300 group-hover:opacity-30 group-hover:scale-110 group-hover:rotate-[15deg]"
+                  style={{ color: activeData.color }}
                 >
-                  {skill.level}%
+                  {activeData.icon}
                 </span>
-              </div>
 
-              {/* Progress Bar */}
-              <div className="h-[3px] w-full bg-white/5 rounded-[2px] overflow-hidden mt-1">
-                <div
-                  className="h-full rounded-[2px]"
-                  style={{
-                    width: `${animatedLevels[skill.name] || 0}%`,
-                    background: `linear-gradient(90deg, ${activeData.color} 0%, ${activeData.color} 100%)`, // hue shift can be added if needed, simplified for compatibility
-                    filter: "hue-rotate(40deg)", // Apply a hue shift toward the end of the bar
-                    transition: `width 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.05}s`,
-                  }}
-                />
-              </div>
+                {/* Top Row with A2 proficiency label */}
+                <div className="flex justify-between items-center pr-4">
+                  <span className="font-mono text-[13px] text-text-primary flex items-center gap-2">
+                    {skill.Icon && <skill.Icon className="text-[14px] opacity-70" />}
+                    {skill.name}
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span
+                      className="font-mono text-[9px] uppercase tracking-[0.15em]"
+                      style={{ color: profColor }}
+                    >
+                      {proficiency.label}
+                    </span>
+                    <span className="font-mono text-[9px] opacity-30 text-[#F0EEF8]">
+                      ({skill.level}%)
+                    </span>
+                  </span>
+                </div>
 
-              {/* CSS for hover (injected via style tag for dynamic category color) */}
-              <style jsx>{`
-                .glass-panel:hover {
-                  border-color: var(--hover-border) !important;
-                  transform: translateY(-2px);
-                  box-shadow: 0 8px 32px var(--hover-shadow), 0 0 0 1px rgba(255,255,255,0.05) inset;
-                }
-              `}</style>
-            </div>
-          ))}
+                {/* A1 — HUD Progress Bar */}
+                <div className="h-[4px] w-full rounded-[2px] overflow-visible mt-1" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
+                  <div
+                    className="h-full rounded-[2px] relative"
+                    style={{
+                      width: `${animatedLevels[skill.name] || 0}%`,
+                      background: `repeating-linear-gradient(
+                        90deg,
+                        ${activeData.color} 0px,
+                        ${activeData.color} 12px,
+                        ${activeData.color}CC 12px,
+                        ${activeData.color}CC 14px
+                      )`,
+                      transition: `width 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.05}s`,
+                    }}
+                  >
+                    {/* A1 — Scanning leading edge dot */}
+                    <span
+                      className="absolute right-0 top-[-1px] w-[4px] h-[6px] rounded-[2px]"
+                      style={{
+                        backgroundColor: "rgba(255,255,255,0.8)",
+                        boxShadow: `0 0 8px ${activeData.color}`,
+                        transition: `opacity 0.3s ease ${index * 0.05 + 0.4}s`,
+                        opacity: (animatedLevels[skill.name] || 0) > 0 ? 1 : 0,
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <style jsx>{`
+                  .skill-card-hover:hover {
+                    border-color: var(--hover-border) !important;
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 32px var(--hover-shadow), 0 0 0 1px rgba(255,255,255,0.05) inset;
+                  }
+                  @keyframes icon-flash {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.3); }
+                    100% { transform: scale(1); }
+                  }
+                  @keyframes underline-expand {
+                    from { transform: scaleX(0); }
+                    to { transform: scaleX(1); }
+                  }
+                `}</style>
+              </div>
+            );
+          })}
         </div>
       </div>
+
+      {/* G3 — Section bottom fade */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-[100px] pointer-events-none z-20"
+        style={{ background: "linear-gradient(to bottom, transparent, #050508)" }}
+      />
     </section>
   );
 }

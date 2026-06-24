@@ -3,6 +3,9 @@
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
+// Toggle this to true when you are open to new opportunities
+const IS_OPEN_TO_WORK = false;
+
 export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
@@ -35,7 +38,6 @@ export default function About() {
   const infoRows = [
     { label: "LOCATION", value: "Pune, India" },
     { label: "UNIVERSITY", value: "MIT-WPU · 2027" },
-    { label: "CGPA", value: "8.7+" },
     { label: "STATUS", value: "Interning @ Calfus · Jul 2026" },
     { label: "INTERESTS", value: "LLMs, RAG, NLP, IR" },
   ];
@@ -111,7 +113,7 @@ export default function About() {
         }}
       />
 
-      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-[380px_1fr] gap-12 md:gap-[80px] items-center overflow-hidden box-border">
+      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-[380px_1fr] gap-12 md:gap-[80px] items-start overflow-hidden box-border">
         {/* LEFT COLUMN: Identity Card */}
         <motion.div
           variants={leftCardVariants}
@@ -137,12 +139,14 @@ export default function About() {
             <div className="about-card-glass glass-panel w-full p-10 relative flex flex-col gap-6 border border-flux/15 shadow-[0_24px_80px_rgba(0,0,0,0.4),_0_0_0_1px_rgba(255,255,255,0.05)_inset]">
               
               {/* Floating Element */}
-              <div
-                className="absolute -top-3 right-6 bg-gradient-to-br from-flux to-plasma text-void font-mono text-[9px] font-bold uppercase tracking-[0.15em] py-1 px-2.5 rounded shadow-lg"
-                style={{ transform: "translateZ(20px)" }}
-              >
-                {`// OPEN TO WORK`}
-              </div>
+              {IS_OPEN_TO_WORK && (
+                <div
+                  className="absolute -top-3 right-6 bg-gradient-to-br from-flux to-plasma text-void font-mono text-[9px] font-bold uppercase tracking-[0.15em] py-1 px-2.5 rounded shadow-lg"
+                  style={{ transform: "translateZ(20px)" }}
+                >
+                  {`// OPEN TO WORK`}
+                </div>
+              )}
 
               {/* Avatar Area */}
               <div className="flex items-center gap-4">
@@ -164,15 +168,17 @@ export default function About() {
               </div>
 
               {/* Status Badge */}
-              <div className="flex items-center gap-2">
-                <div
-                  className="w-2 h-2 rounded-full bg-neural shadow-[0_0_8px_rgba(160,255,111,0.6)] shrink-0"
-                  style={{ animation: "status-pulse 2s infinite" }}
-                />
-                <span className="font-mono text-[11px] text-neural tracking-[0.08em]">
-                  Available for Research Collab
-                </span>
-              </div>
+              {IS_OPEN_TO_WORK && (
+                <div className="flex items-center gap-2">
+                  <div
+                    className="w-2 h-2 rounded-full bg-neural shadow-[0_0_8px_rgba(160,255,111,0.6)] shrink-0"
+                    style={{ animation: "status-pulse 2s infinite" }}
+                  />
+                  <span className="font-mono text-[11px] text-neural tracking-[0.08em]">
+                    Available for Research Collab
+                  </span>
+                </div>
+              )}
 
               <div className="w-full h-[1px] bg-white/5" />
 

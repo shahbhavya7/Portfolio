@@ -142,6 +142,20 @@ export default function Research() {
                   }}
                 />
 
+                {/* Springer Easter Egg Watermark */}
+                {item.publisher === "Springer" && (
+                  <span
+                    className="absolute -bottom-6 right-8 font-syne font-extrabold text-[80px] md:text-[120px] pointer-events-none z-0 select-none opacity-5 transition-transform duration-500 group-hover:scale-105 group-hover:-translate-y-2"
+                    style={{ 
+                      color: "transparent",
+                      WebkitTextStroke: "1px rgba(240,238,248,0.8)",
+                      letterSpacing: "0.05em",
+                    }}
+                  >
+                    SPRINGER
+                  </span>
+                )}
+
                 {/* Left Column */}
                 <div className="relative z-10 flex-shrink-0 w-auto lg:w-[200px] flex flex-row lg:flex-col flex-wrap gap-6 lg:gap-0">
                   <div className="w-full sm:w-auto lg:w-full">
