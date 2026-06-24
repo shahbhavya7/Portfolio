@@ -248,7 +248,7 @@ export default function About() {
             className="mt-6 flex flex-col gap-4 text-[16px] text-[#A096BE]/80 leading-[1.8]"
           >
             <p className="max-w-[560px] break-words" style={{ overflowWrap: "break-word", wordWrap: "break-word" }}>
-              <span style={{ color: "rgba(240,238,248,0.95)", fontSize: "17px" }}>Third-year AI &amp; Data Science student at MIT-WPU, Pune.</span>{" "}
+              Final-year AI &amp; Data Science student at MIT-WPU, Pune.
               I build
               production GenAI systems like RAG pipelines, multi-agent
               architectures, and LLM evaluation frameworks that actually ship.

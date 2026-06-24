@@ -15,7 +15,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Bhavya Shah — AI Engineer",
+  title: "Bhavya Shah · Neural Gravity",
   description: "Third-year AI & Data Science student at MIT-WPU. Building production GenAI systems — RAG pipelines, multi-agent architectures, and LLM evaluation frameworks.",
   keywords: [
     "Bhavya Shah", "AI Engineer", "GenAI", "RAG", 
@@ -24,19 +24,26 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Bhavya Shah" }],
   openGraph: {
-    title: "Bhavya Shah — AI Engineer",
+    title: "Bhavya Shah · Neural Gravity",
     description: "Building intelligent systems at the intersection of language, reasoning, and scale.",
     type: "website",
     locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bhavya Shah — AI Engineer",
+    title: "Bhavya Shah · Neural Gravity",
     description: "Building intelligent systems at the intersection of language, reasoning, and scale.",
   },
   robots: {
     index: true,
     follow: true,
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
   },
 };
 
