@@ -13,7 +13,7 @@ const NAV_LINKS = [
 
 const SOCIAL_LINKS = [
   { label: "GH", href: "https://github.com/shahbhavya7" },
-  { label: "IN", href: "https://linkedin.com/in/bhavyashah" },
+  { label: "IN", href: "https://linkedin.com/in/bhavyashahbs" },
   { label: "@", href: "mailto:bhavyshah.work@gmail.com" },
 ];
 
@@ -37,13 +37,13 @@ export default function Footer() {
       />
 
       <div className="max-w-[1200px] mx-auto px-6 md:px-[48px]">
-        
+
         {/* ROW 1 — Main footer row */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-[32px] gap-6 text-center md:text-left">
-          
+
           {/* LEFT — Brand mark */}
           <div className="flex items-center justify-center md:justify-start gap-3">
-            <span 
+            <span
               className="font-syne font-extrabold text-[20px]"
               style={{
                 background: "linear-gradient(135deg, #00D4FF, #6E3AFA)",
@@ -101,7 +101,7 @@ export default function Footer() {
 
         {/* ROW 3 — Copyright + build info row */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-3 text-center md:text-left">
-          
+
           {/* LEFT */}
           <div className="font-mono text-[10px] tracking-[0.05em]" style={{ color: "rgba(160,150,190,0.25)" }}>
             © 2026 Bhavya Shah. Built with Next.js, Three.js, and too much caffeine.
@@ -112,7 +112,7 @@ export default function Footer() {
             <span style={{ color: "rgba(160,150,190,0.2)" }}>
               Designed in the void. Deployed on Vercel.
             </span>
-            
+
             <div className="flex items-center gap-[6px]">
               <span className="w-[3px] h-[3px] rounded-full bg-[#A0FF6F]" />
               <span className="text-[9px]" style={{ color: "rgba(160,150,190,0.2)" }}>

@@ -30,7 +30,7 @@ const CONTACT_CARDS = [
   },
   {
     id: "linkedin",
-    href: "https://linkedin.com/in/bhavyashah",
+    href: "https://linkedin.com/in/bhavyashahbs",
     icon: "in",
     label: "LINKEDIN",
     value: "bhavyashah",
